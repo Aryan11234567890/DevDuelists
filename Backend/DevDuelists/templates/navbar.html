@@ -1,0 +1,22 @@
+{% load static %}
+
+<a href = '/'>
+    <img class="imagelogo" src="{% static 'images/logo.jpg' %}" alt="image logo">
+    <h1>Hey guys!!!!</h1>
+</a>
+
+<form method="GET" action="{% url 'home' %}">
+    <input type="text" name="q" placeholder="Search"/>
+
+
+
+</form>
+
+
+{% if request.user.is_authenticated %}
+<p>Hello and welcome... {{request.user}}!!!!!!!!!</p>
+<a href="{% url 'logout' %}">Get out!!!</a>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %}
+<hr>

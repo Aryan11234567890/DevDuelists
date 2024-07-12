@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+    <head>
+        <meta charset="utf-8" >
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+        <title>Hey wassup!!!</title>
+        <meta name="viewport" content="width=device_width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static 'styles/main.css' %}">
+    </head>
+    <body>
+
+        {% if messages %}
+
+        <ul class="messages">
+            {% for message in messages %}
+            <li>
+                {{message}}
+            </li>
+
+
+            {% endfor %}
+
+        </ul>
+
+        {% endif %}
+
+        <!-- <img src="{% static 'images/lol1.jpg' %}" /> -->
+
+        {% block content %}
+
+        {% endblock %}
+    </body>
+</html>
