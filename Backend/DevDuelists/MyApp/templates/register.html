@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+ {% extends "main.html" %}
 {% block content %}
 
 <div class="container">
@@ -11,8 +11,10 @@
     {% endif %}
     <form method="POST" action="">
         {% csrf_token %}
+        <h2>Register</h2>
         {{ form.as_p }}
         <input type="submit" value="Register" />
     </form>
 </div>
-{% endblock %}
+{% endblock %} 
+

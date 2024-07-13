@@ -10,6 +10,7 @@
     {% endif %}
     <form method="POST" action="">
         {% csrf_token %}
+        <h2>Login</h2>
         <label>Username:</label>
         <input type="text" name="username" placeholder="Username" required />
 
@@ -21,41 +22,3 @@
     <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
 </div>
 {% endblock %} 
-
-
-
-
-{% comment %} {% extends "main.html" %}
-
-{% block content %}
-
-<div class="header">
-    <img src="{% static 'images/logo.png' %}" alt="Logo">
-</div>
-
-<div class="content">
-    <div class="image">
-        <img src="{% static 'images/jett.png' %}" alt="Jett from Valorant">
-    </div>
-    <div class="container">
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        <form method="POST" action="">
-            {% csrf_token %}
-            <label>Username:</label>
-            <input type="text" name="username" placeholder="Username" required />
-
-            <label>Password:</label>
-            <input type="password" name="password" placeholder="Password" required />
-
-            <input type="submit" value="Login" />
-        </form>
-        <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
-    </div>
-</div>
-{% endblock %} {% endcomment %}
