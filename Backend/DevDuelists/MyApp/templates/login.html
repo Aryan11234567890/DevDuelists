@@ -1,6 +1,5 @@
 {% extends "main.html" %}
 {% block content %}
-
 <div>
     <form method='POST' action=''>
         {% csrf_token %}
@@ -10,11 +9,8 @@
         <label>Password: </label>
         <input type='password' name='password' placeholder='Password' required />
 
-
         <input type='submit' value='Login' />
     </form>
+    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
 </div>
-
-
-
-{% endblock content %}
+{% endblock %}
