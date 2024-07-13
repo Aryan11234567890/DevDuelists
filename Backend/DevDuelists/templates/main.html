@@ -1,6 +1,8 @@
+{% load static %}
+
 <!DOCTYPE html>
 
-{% load static %}
+
 
 <html>
     <head>
@@ -11,6 +13,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="{% static 'styles/main.css' %}">
     </head>
     <body>
+        <img src="{% static 'images/logo.png' %}" alt="Logo">
 
         {% if messages %}
 
