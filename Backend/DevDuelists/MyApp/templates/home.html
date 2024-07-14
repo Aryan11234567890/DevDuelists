@@ -1,1 +1,150 @@
-<h1>Welcome to my world!</h1>
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('{% static 'images/breeze.png' %}') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .fallback-background {
+            background-color: grey;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .sticky-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+
+        .sticky-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: #1e1e1e;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .card a {
+            color: #00bfff;
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .calendar, .study-plan {
+            background-color: #1e1e1e;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="fallback-background">
+    <nav class="sticky-nav">
+        <div>
+            <a href="#">Explore</a>
+            <a href="#">Problems</a>
+            <a href="#">Contest</a>
+            <a href="#">Discuss</a>
+            <a href="#">Interview</a>
+            <a href="#">Store</a>
+        </div>
+        <div>
+            <a href="#">Profile</a>
+            <a href="#">Notifications</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="content">
+            <div class="grid">
+                <div class="card">
+                    <h3>DevDuelist's Interview Crash Course</h3>
+                    <p>System Design for Interviews and Beyond</p>
+                    <a href="#">Start Learning</a>
+                </div>
+                <div class="card">
+                    <h3>DevDuelist's Interview Crash Course</h3>
+                    <p>Data Structures and Algorithms</p>
+                    <a href="#">Start Learning</a>
+                </div>
+                <div class="card">
+                    <h3>Top Interview Questions</h3>
+                    <a href="#">Get Started</a>
+                </div>
+            </div>
+            <h3>Study Plan</h3>
+            <div class="grid">
+                <div class="card">
+                    <h3>Top Interview 150</h3>
+                    <p>Must-do List for Interview Prep</p>
+                </div>
+                <div class="card">
+                    <h3>DevDuelist 75</h3>
+                    <p>Ace Coding Interview with 75 Qs</p>
+                </div>
+                <div class="card">
+                    <h3>SQL 50</h3>
+                    <p>Crack SQL Interview in 50 Qs</p>
+                </div>
+                <div class="card">
+                    <h3>Introduction to Pandas</h3>
+                    <p>Learn Basic Pandas in 15 Qs</p>
+                </div>
+                <div class="card">
+                    <h3>30 Days of JavaScript</h3>
+                    <p>Learn JS Basics with 30 Qs</p>
+                </div>
+            </div>
+            <div class="calendar">
+                <h3>Calendar</h3>
+                <p>Day 14: 14:12:48 left</p>
+            </div>
+            <div class="study-plan">
+                <h3>Ongoing Study Plan</h3>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
