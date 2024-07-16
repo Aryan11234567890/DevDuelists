@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from .models import Problem
 
 def loginPage(request):
@@ -43,9 +44,22 @@ def homePage(request):
 
 @login_required(login_url = 'login')
 def problemPage(request):
-    problems = Problem.objects.all()
-    return render(request, 'problems.html', {'problems': problems})
+    search_query = request.GET.get('search') if request.GET.get('search') else ''
+    problems = Problem.objects.filter(
+        Q(name__icontains=search_query)
+    )
+    return render(request, 'problems.html', {'problems': problems, 'search_query': search_query})
 
 @login_required(login_url = 'login')
 def discussionPage(request):
     return render(request, 'Discussions.html')
+
+@login_required(login_url = 'login')
+def solvePage(request, id):
+    problem = get_object_or_404(Problem, id=id)
+    return render(request, 'solve.html', {'problem': problem})
+
+@login_required(login_url = 'login')
+def logoutButton(request):
+    logout(request)
+    return redirect('login')

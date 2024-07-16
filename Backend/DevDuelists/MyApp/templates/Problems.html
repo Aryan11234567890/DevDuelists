@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: url('{% static 'images/breeze.png' %}') no-repeat center center fixed;
+            background: url('{% static 'images/problems.png' %}') no-repeat center center fixed;
             background-size: cover;
             color: white;
         }
@@ -94,12 +94,13 @@
 <body>
     <nav class="sticky-nav">
         <div>
-            <a href="#">Problems</a>
-            <a href="#">Discuss</a>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'discussionPage' %}">Discuss</a>
         </div>
         <div>
             <a href="#">Profile</a>
             <a href="#">Notifications</a>
+            <a href="{% url 'logout' %}">Logout</a>
         </div>
     </nav>
     <div class="container">
@@ -111,9 +112,9 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Status</th>
                     <th>Title</th>
-                    <th>Solution</th>
                     <th>Acceptance</th>
                     <th>Difficulty</th>
                     <th>Frequency</th>
@@ -122,9 +123,9 @@
             <tbody>
                 {% for problem in problems %}
                 <tr>
+                    <td>{{problem.id}}</td>
                     <td>✅</td>
-                    <td>{{ problem.name }}</td>
-                    <td>📄</td>
+                    <td><a href="{% url 'solvePage' problem.id %}">{{ problem.name }}</a></td>
                     <td>{{ problem.accepted }}%</td>
                     <td>{{ problem.difficulty }}</td>
                     <td>{{ problem.frequency }}</td>
