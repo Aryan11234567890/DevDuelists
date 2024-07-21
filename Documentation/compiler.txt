@@ -1,0 +1,36 @@
+submissions model:
+    language
+    input
+    code
+    output
+    user_id
+    time, date
+
+-----------------------------------------|
+|language        |                        |
+|                 |                       |
+|                  |                      |
+|code              |      output          |
+|                  |                      |
+|                  |                      |
+|                 |                       |
+|input           |                        |
+|                 |                       |
+|run              |                       |
+|-----------------|-----------------------|
+
+run -> 3 folders:
+    inputs dir
+    codes dir
+    outputs dir
+
+    unique name (uuid module will be used)
+
+initially empty
+
+
+
+class submission:
+    objects having input, code and op is blank
+    unique_name.language
+

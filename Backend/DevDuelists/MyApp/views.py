@@ -5,6 +5,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Problem
+from .forms import CodeSubmissionForm
+
+
 
 def loginPage(request):
     if request.method == 'POST':
@@ -63,3 +66,45 @@ def solvePage(request, id):
 def logoutButton(request):
     logout(request)
     return redirect('login')
+
+@login_required
+# def solveProblemPage(request, problem_id):
+#     problem = get_object_or_404(Problem, id=problem_id)
+#     if request.method == 'POST':
+#         form = CodeSubmissionForm(request.POST)
+#         custom_tc = request.POST.get('custom_tc', '')
+#         if form.is_valid():
+#             code_instance = form.save(commit=False)
+#             code_instance.myuser = request.user
+#             code_instance.save()
+#             context = {
+#                 'problem': problem,
+#                 'form': form,
+#                 'code': code_instance.code,
+#                 'custom_tc': custom_tc,
+#             }
+#             return render(request, 'solve.html', context)
+#     else:
+#         form = CodeSubmissionForm()
+#     context = {'problem': problem, 'form': form}
+#     return render(request, 'solve.html', context)
+def solveProblemPage(request, problem_id):
+    problem = get_object_or_404(Problem, id=problem_id)
+    if request.method == 'POST':
+        form = CodeSubmissionForm(request.POST)
+        custom_tc = request.POST.get('custom_tc', '')
+        if form.is_valid():
+            code_instance = form.save(commit=False)
+            code_instance.myuser = request.user
+            code_instance.save()
+            context = {
+                'problem': problem,
+                'form': form,
+                'code': code_instance.code,
+                'custom_tc': custom_tc,
+            }
+            return render(request, 'solve.html', context)
+    else:
+        form = CodeSubmissionForm()
+    context = {'problem': problem, 'form': form}
+    return render(request, 'solve.html', context)

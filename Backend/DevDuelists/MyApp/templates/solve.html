@@ -1,3 +1,148 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ problem.name }}</title>
+    <style>
+        body {
+            background: url('{% static 'images/omen.png' %}') no-repeat center center fixed;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
 
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
 
-<h1>problem solve</h1>
+        .sticky-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+
+        .sticky-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            display: flex;
+            padding: 20px;
+        }
+
+        .left-panel {
+            flex: 2;
+            margin-right: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .right-panel {
+            flex: 3;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .problem-description {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .problem-examples {
+            font-size: 14px;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .form-section label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-section textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .form-section button {
+            padding: 10px 20px;
+            border: none;
+            background: #333;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-section button:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <nav class="sticky-nav">
+        <div>
+            <a href="{% url 'problemPage' %}">Problems</a>
+            <a href="{% url 'discussionPage' %}">Discuss</a>
+        </div>
+        <div>
+            <a href="#">Profile</a>
+            <a href="#">Notifications</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="left-panel">
+            <div class="problem-title">{{ problem.name }}</div>
+            <div class="problem-description">{{ problem.description }}</div>
+            <div class="problem-examples">
+                <h3>Sample Test Cases</h3>
+                <pre>{{ problem.sample_tc }}</pre>
+            </div>
+        </div>
+        <div class="right-panel">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-section">
+                    <label for="id_code">Your Code:</label>
+                    {{ form.code }}
+                </div>
+                <div class="form-section">
+                    <label for="id_custom_test_case">Custom Test Case (Optional):</label>
+                    <textarea id="id_custom_tc" name="custom_tc" rows="5" placeholder="Optional custom test case..." style="width: 100%; font-family: monospace;"></textarea>
+                </div>
+                <div class="form-section">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
