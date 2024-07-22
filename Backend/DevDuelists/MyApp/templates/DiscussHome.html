@@ -1,0 +1,43 @@
+{% extends 'Discussions.html' %}
+
+{% block content %}
+
+
+<style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+</style>
+
+
+<div class="home-container">
+    <div class="sidebar">
+        {% include '' %}
+    </div>
+
+    <div>
+
+        
+            {% if room_count == 1 %}
+                <h5>{{room_count}} pod available</h5>
+            {% else %}
+                <h5>{{room_count}} pods available</h5>
+            {% endif %}
+        <a href="{% url 'create-room' %}">Create Room</a>
+        
+        {% include '' %}
+
+        
+    </div>
+
+    <div>
+        {% include '' %}
+    </div> 
+    
+
+</div>
+
+
+
+{% endblock content %}

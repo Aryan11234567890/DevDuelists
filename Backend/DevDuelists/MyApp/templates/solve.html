@@ -91,6 +91,14 @@
             font-size: 14px;
         }
 
+        .form-section select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
         .form-section button {
             padding: 10px 20px;
             border: none;
@@ -103,6 +111,27 @@
 
         .form-section button:hover {
             background: #555;
+        }
+
+        .output-section {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .output-section h3 {
+            margin-top: 0;
+        }
+
+        .output-section pre {
+            background: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -131,6 +160,10 @@
             <form method="POST">
                 {% csrf_token %}
                 <div class="form-section">
+                    <label for="id_language">Language:</label>
+                    {{ form.language }}
+                </div>
+                <div class="form-section">
                     <label for="id_code">Your Code:</label>
                     {{ form.code }}
                 </div>
@@ -142,6 +175,18 @@
                     <button type="submit">Submit</button>
                 </div>
             </form>
+            {% if output %}
+            <div class="output-section">
+                <h3>Output:</h3>
+                <pre>{{ output }}</pre>
+            </div>
+            {% endif %} 
+            {% if error %}
+            <div class="output-section">
+                <h3>Error:</h3>
+                <pre>{{ error }}</pre>
+            </div>
+            {% endif %}
         </div>
     </div>
 </body>
