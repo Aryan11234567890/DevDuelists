@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 {% load static %}
 <html lang="en">
 <head>
@@ -43,6 +42,11 @@
             text-decoration: underline;
         }
 
+        .sticky-nav img.logo {
+            height: 40px;
+            vertical-align: middle;
+        }
+
         .content {
             margin-top: 20px;
         }
@@ -84,12 +88,13 @@
 <body class="fallback-background">
     <nav class="sticky-nav">
         <div>
+            <a href="{% url 'home' %}">
+                <img src="{% static 'images/logo.png' %}" class="logo" alt="Logo">
+            </a>
             <a href="{% url 'problemPage' %}">Problems</a>
             <a href="{% url 'discussionPage' %}">Discuss</a>
         </div>
         <div>
-            <a href="#">Profile</a>
-            <a href="#">Notifications</a>
             <a href="{% url 'logout' %}">Logout</a>
         </div>
     </nav>
@@ -145,4 +150,3 @@
     </div>
 </body>
 </html>
-

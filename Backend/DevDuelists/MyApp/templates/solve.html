@@ -107,6 +107,7 @@
             font-size: 16px;
             border-radius: 4px;
             cursor: pointer;
+            margin-right: 10px;
         }
 
         .form-section button:hover {
@@ -126,10 +127,6 @@
         }
 
         .output-section pre {
-            background: #333;
-            color: white;
-            padding: 10px;
-            border-radius: 4px;
             white-space: pre-wrap;
             word-wrap: break-word;
         }
@@ -138,41 +135,32 @@
 <body>
     <nav class="sticky-nav">
         <div>
-            <a href="{% url 'problemPage' %}">Problems</a>
-            <a href="{% url 'discussionPage' %}">Discuss</a>
+            <a href="{% url 'home' %}">Home</a>
         </div>
         <div>
-            <a href="#">Profile</a>
-            <a href="#">Notifications</a>
             <a href="{% url 'logout' %}">Logout</a>
         </div>
     </nav>
     <div class="container">
         <div class="left-panel">
             <div class="problem-title">{{ problem.name }}</div>
-            <div class="problem-description">{{ problem.description }}</div>
+            <div class="problem-description">{{ problem.description|linebreaks }}</div>
             <div class="problem-examples">
-                <h3>Sample Test Cases</h3>
+                <strong>Sample Input:</strong>
                 <pre>{{ problem.sample_tc }}</pre>
+                <strong>Sample Output:</strong>
+                <pre>{{ problem.custom_tc }}</pre>
             </div>
         </div>
         <div class="right-panel">
-            <form method="POST">
+            <form method="POST" class="form-section">
                 {% csrf_token %}
+                {{ form.as_p }}
+                <label for="custom_tc">Custom Test Case:</label>
+                <textarea id="custom_tc" name="custom_tc" rows="4">{{ custom_tc }}</textarea>
                 <div class="form-section">
-                    <label for="id_language">Language:</label>
-                    {{ form.language }}
-                </div>
-                <div class="form-section">
-                    <label for="id_code">Your Code:</label>
-                    {{ form.code }}
-                </div>
-                <div class="form-section">
-                    <label for="id_custom_test_case">Custom Test Case (Optional):</label>
-                    <textarea id="id_custom_tc" name="custom_tc" rows="5" placeholder="Optional custom test case..." style="width: 100%; font-family: monospace;"></textarea>
-                </div>
-                <div class="form-section">
-                    <button type="submit">Submit</button>
+                    <button type="submit" name="action" value="run">Run</button>
+                    <button type="submit" name="action" value="submit">Submit</button>
                 </div>
             </form>
             {% if output %}
@@ -180,11 +168,17 @@
                 <h3>Output:</h3>
                 <pre>{{ output }}</pre>
             </div>
-            {% endif %} 
+            {% endif %}
             {% if error %}
             <div class="output-section">
                 <h3>Error:</h3>
                 <pre>{{ error }}</pre>
+            </div>
+            {% endif %}
+            {% if verdict %}
+            <div class="output-section">
+                <h3>Verdict:</h3>
+                <pre>{{ verdict }}</pre>
             </div>
             {% endif %}
         </div>

@@ -72,17 +72,31 @@ def logoutButton(request):
     logout(request)
     return redirect('login')
 
-
 @login_required(login_url='login')
 def solveProblemPage(request, problem_id):
     problem = get_object_or_404(Problem, id=problem_id)
+    form = CodeSubmissionForm(request.POST or None)
     if request.method == 'POST':
-        form = CodeSubmissionForm(request.POST)
         custom_tc = request.POST.get('custom_tc', '')
+        action = request.POST.get('action')
+
         if form.is_valid():
             language = form.cleaned_data['language']
             code = form.cleaned_data['code']
-            output, error = run_code(language, code, custom_tc)
+            output, error, verdict = '', '', ''
+
+            if action == 'run':
+                output, error = run_code(language, code, custom_tc)
+            elif action == 'submit':
+                hidden_input = problem.hidden_input
+                expected_output = problem.expected_output.strip()
+                output, error = run_code(language, code, hidden_input)
+                print(f"Expected Output: {expected_output!r}")
+                print(f"Actual Output: {output!r}")
+                output = output.strip()
+                expected_output = expected_output.strip()
+                verdict = "Accepted" if output == expected_output else "Wrong Answer"
+
             code_instance = form.save(commit=False)
             code_instance.myuser = request.user
             code_instance.result = output if not error else error
@@ -94,17 +108,18 @@ def solveProblemPage(request, problem_id):
                 'custom_tc': custom_tc,
                 'output': output,
                 'error': error,
+                'verdict': verdict,
             }
             return render(request, 'solve.html', context)
-    else:
-        form = CodeSubmissionForm()
     context = {'problem': problem, 'form': form}
     return render(request, 'solve.html', context)
+
 
 def run_code(language, code, input_data):
     project_path = Path(settings.BASE_DIR)
     directories = ("codes", "inputs", "outputs")
 
+    # Create directories if they don't exist
     for directory in directories:
         dir_path = project_path / directory
         if not dir_path.exists():
@@ -125,9 +140,11 @@ def run_code(language, code, input_data):
     input_file_path = inputs_dir / input_file_name
     output_file_path = outputs_dir / output_file_name
 
+    print(f"Writing code to {code_file_path}")
     with open(code_file_path, "w") as code_file:
         code_file.write(code)
 
+    print(f"Writing input data to {input_file_path}")
     with open(input_file_path, "w") as input_file:
         input_file.write(input_data)
 
@@ -142,17 +159,21 @@ def run_code(language, code, input_data):
                 capture_output=True,
                 text=True
             )
+            print(f"Compile result: {compile_result.returncode}, stderr: {compile_result.stderr}")
             if compile_result.returncode == 0:
-                with open(input_file_path, "r") as input_file:
-                    run_result = subprocess.run(
-                        [str(executable_path)],
-                        stdin=input_file,
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE,
-                        text=True
-                    )
-                    output_data = run_result.stdout
-                    error_data = run_result.stderr
+                run_result = subprocess.run(
+                    [str(executable_path)],
+                    stdin=open(input_file_path, "r"),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True
+                )
+                output_data = run_result.stdout
+                error_data = run_result.stderr
+                print(f"Run result: stdout: {output_data}, stderr: {error_data}")
+                print(f"Writing output data to {output_file_path}")
+                with open(output_file_path, "w") as output_file:
+                    output_file.write(output_data)
             else:
                 error_data = compile_result.stderr
         elif language == "c":
@@ -162,17 +183,21 @@ def run_code(language, code, input_data):
                 capture_output=True,
                 text=True
             )
+            print(f"Compile result: {compile_result.returncode}, stderr: {compile_result.stderr}")
             if compile_result.returncode == 0:
-                with open(input_file_path, "r") as input_file:
-                    run_result = subprocess.run(
-                        [str(executable_path)],
-                        stdin=input_file,
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE,
-                        text=True
-                    )
-                    output_data = run_result.stdout
-                    error_data = run_result.stderr
+                run_result = subprocess.run(
+                    [str(executable_path)],
+                    stdin=open(input_file_path, "r"),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True
+                )
+                output_data = run_result.stdout
+                error_data = run_result.stderr
+                print(f"Run result: stdout: {output_data}, stderr: {error_data}")
+                print(f"Writing output data to {output_file_path}")
+                with open(output_file_path, "w") as output_file:
+                    output_file.write(output_data)
             else:
                 error_data = compile_result.stderr
         elif language == "py":
@@ -185,9 +210,14 @@ def run_code(language, code, input_data):
             )
             output_data = run_result.stdout
             error_data = run_result.stderr
+            print(f"Run result: stdout: {output_data}, stderr: {error_data}")
+            print(f"Writing output data to {output_file_path}")
+            with open(output_file_path, "w") as output_file:
+                output_file.write(output_data)
 
     except Exception as e:
         error_data = str(e)
+        print(f"Exception: {error_data}")
 
     os.remove(code_file_path)
     os.remove(input_file_path)
