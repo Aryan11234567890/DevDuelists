@@ -1,4 +1,4 @@
-INSERT INTO public."MyApp_problem" (name, description, sample_tc, custom_tc, hidden_tc, accepted, difficulty, frequency)
+INSERT INTO public."MyApp_problem" (name, description, sample_tc, custom_tc, hidden_input, expected_output, accepted, difficulty, frequency)
 VALUES 
 ('Binary Search Tree', 'Implement a Binary Search Tree', 'input: [5, 3, 8, 2, 4, 7, 9], output: [2, 3, 4, 5, 7, 8, 9]', 'input: [10, 5, 15, 3, 7, 12, 17], output: [3, 5, 7, 10, 12, 15, 17]', 'input: [20, 10, 30, 5, 15, 25, 35], output: [5, 10, 15, 20, 25, 30, 35]', 70, 'Easy', 5),
 ('Merge Sort Algorithm', 'Write a function for Merge Sort', 'input: [38, 27, 43, 3, 9, 82, 10], output: [3, 9, 10, 27, 38, 43, 82]', 'input: [10, 7, 8, 9, 1, 5], output: [1, 5, 7, 8, 9, 10]', 'input: [3, 41, 52, 26, 38, 57, 9, 49], output: [3, 9, 26, 38, 41, 49, 52, 57]', 65, 'Medium', 7),

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: AryanOJ_DB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: AryanPostgres
+
+  web:
+    build: .
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:AryanPostgres@db:5432/AryanOJ_DB
+      DJANGO_SETTINGS_MODULE: DevDuelists.settings
+      PYTHONUNBUFFERED: 1
+
+volumes:
+  postgres_data:

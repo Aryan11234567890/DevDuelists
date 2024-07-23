@@ -11,7 +11,7 @@ class Problem(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     sample_tc = models.TextField()
-    custom_tc = models.TextField()
+    sample_op = models.TextField()
     hidden_input = models.TextField(default='xD')   
     expected_output = models.TextField()   
     accepted = models.IntegerField(default=0)

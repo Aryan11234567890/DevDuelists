@@ -56,7 +56,7 @@ def problemPage(request):
     problems = Problem.objects.filter(
         Q(name__icontains=search_query)
     )
-    return render(request, 'problems.html', {'problems': problems, 'search_query': search_query})
+    return render(request, 'Problems.html', {'problems': problems, 'search_query': search_query})
 
 @login_required(login_url = 'login')
 def discussionPage(request):
