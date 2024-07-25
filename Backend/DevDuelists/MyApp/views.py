@@ -242,7 +242,7 @@ def Discusshome(request):
     room_count = rooms.count()
     room_messages = Message.objects.filter(Q(room__topic__name__icontains = q))
     context = {'rooms' : rooms, 'topics': topics, 'room_count' : room_count, 'room_messages': room_messages}
-    return render(request, 'basicapp/home.html', context)
+    return render(request, 'Discussions.html', context)
 
 @login_required(login_url = 'login')
 def room(request, pk):
@@ -259,7 +259,7 @@ def room(request, pk):
         return redirect('room', pk = room.id)
     
     context = {'room' : room, 'room_messages' : room_messages, 'participants': participants}
-    return render(request, 'basicapp/room.html', context)
+    return render(request, 'room.html', context)
 
 @login_required(login_url = 'login')
 def createRoom(request):
@@ -273,7 +273,7 @@ def createRoom(request):
             return redirect('home')
     
     context ={'form' : form}
-    return render(request, 'basicapp/room_form.html', context)
+    return render(request, 'room_form.html', context)
 
 
 def deleteRoom(request, pk):
@@ -287,7 +287,7 @@ def deleteRoom(request, pk):
     if request.method == 'POST':
         room.delete()
         return redirect('home')
-    return render(request, 'basicapp/delete_room.html', {'obj' : room})
+    return render(request, 'delete_room.html', {'obj' : room})
 
 
 @login_required(login_url='login')
@@ -302,4 +302,4 @@ def deletemess(request, pk):
     if request.method == 'POST':
         message.delete()
         return redirect('home')
-    return render(request, 'basicapp/delete_room.html', {'obj' : message})
+    return render(request, 'delete_room.html', {'obj' : message})
