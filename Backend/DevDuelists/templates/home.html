@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome!! {{user}}</title>
+    <title>Welcome!! {{ user }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,6 +49,37 @@
 
         .content {
             margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 300px;
+            width: auto;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .text-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+        }
+
+        .welcome-text {
+            color: white;
+            font-size: 1.5em;
+            text-align: left;
         }
 
         .card {
@@ -100,51 +131,14 @@
     </nav>
     <div class="container">
         <div class="content">
-            <div class="grid">
-                <div class="card">
-                    <h3>DevDuelist's Interview Crash Course</h3>
-                    <p>System Design for Interviews and Beyond</p>
-                    <a href="#">Start Learning</a>
-                </div>
-                <div class="card">
-                    <h3>DevDuelist's Interview Crash Course</h3>
-                    <p>Data Structures and Algorithms</p>
-                    <a href="#">Start Learning</a>
-                </div>
-                <div class="card">
-                    <h3>Top Interview Questions</h3>
-                    <a href="#">Get Started</a>
-                </div>
+            <div class="image-container">
+                <img src="{% static 'images/welcome.jpeg' %}" alt="Welcome Image">
             </div>
-            <h3>Study Plan</h3>
-            <div class="grid">
-                <div class="card">
-                    <h3>Top Interview 150</h3>
-                    <p>Must-do List for Interview Prep</p>
+            <div class="text-container">
+                <div class="welcome-text">
+                    Welcome back {{ user }}!!!<br>
+                    Solve more problems and strengthen your coding skills.
                 </div>
-                <div class="card">
-                    <h3>DevDuelist 75</h3>
-                    <p>Ace Coding Interview with 75 Qs</p>
-                </div>
-                <div class="card">
-                    <h3>SQL 50</h3>
-                    <p>Crack SQL Interview in 50 Qs</p>
-                </div>
-                <div class="card">
-                    <h3>Introduction to Pandas</h3>
-                    <p>Learn Basic Pandas in 15 Qs</p>
-                </div>
-                <div class="card">
-                    <h3>30 Days of JavaScript</h3>
-                    <p>Learn JS Basics with 30 Qs</p>
-                </div>
-            </div>
-            <div class="calendar">
-                <h3>Calendar</h3>
-                <p>Day 14: 14:12:48 left</p>
-            </div>
-            <div class="study-plan">
-                <h3>Ongoing Study Plan</h3>
             </div>
         </div>
     </div>
