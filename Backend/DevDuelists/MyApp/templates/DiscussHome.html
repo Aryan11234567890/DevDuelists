@@ -1,4 +1,4 @@
-{% extends 'Discussions.html' %}
+{% extends 'MyApp/Discussions.html' %}
 
 {% block content %}
 
@@ -13,7 +13,7 @@
 
 <div class="home-container">
     <div class="sidebar">
-        {% include '' %}
+        {% include 'MyApp/topic_comp.html' %}
     </div>
 
     <div>
@@ -26,13 +26,13 @@
             {% endif %}
         <a href="{% url 'create-room' %}">Create Room</a>
         
-        {% include '' %}
+        {% include 'MyApp/topic_comp.html' %}
 
         
     </div>
 
     <div>
-        {% include '' %}
+        {% include 'MyApp/activity_comp.html' %}
     </div> 
     
 

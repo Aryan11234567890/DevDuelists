@@ -1,5 +1,5 @@
 from django import forms
-from .models import Code
+from .models import *
 
 LANGUAGE_CHOICES = [
     ('cpp', 'C++'),
@@ -13,3 +13,10 @@ class CodeSubmissionForm(forms.ModelForm):
     class Meta:
         model = Code
         fields = ['language', 'code']
+
+
+class RoomForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = '__all__'
+        exclude = ['host', 'participants']

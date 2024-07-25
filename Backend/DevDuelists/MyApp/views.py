@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .models import Problem
-from .forms import CodeSubmissionForm
+from .models import *
+from .forms import *
 import uuid
 import subprocess
 import os
@@ -227,3 +228,78 @@ def run_code(language, code, input_data):
         os.remove(executable_path)
 
     return output_data, error_data
+
+
+@login_required(login_url= 'login')
+def Discusshome(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    rooms = Room.objects.filter(
+        Q(topic__name__icontains = q) |
+        Q(name__icontains = q) |
+        Q(desc__icontains = q)
+    )
+    topics = Topic.objects.all()
+    room_count = rooms.count()
+    room_messages = Message.objects.filter(Q(room__topic__name__icontains = q))
+    context = {'rooms' : rooms, 'topics': topics, 'room_count' : room_count, 'room_messages': room_messages}
+    return render(request, 'basicapp/home.html', context)
+
+@login_required(login_url = 'login')
+def room(request, pk):
+    room = Room.objects.get(id = pk)
+    room_messages = room.message_set.all().order_by('-created')
+    participants = room.participants.all()
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user = request.user,
+            room = room,
+            body = request.POST.get('body')
+        )
+        room.participants.add(request.user)
+        return redirect('room', pk = room.id)
+    
+    context = {'room' : room, 'room_messages' : room_messages, 'participants': participants}
+    return render(request, 'basicapp/room.html', context)
+
+@login_required(login_url = 'login')
+def createRoom(request):
+    form = RoomForm()
+    if request.method == 'POST':
+        form = RoomForm(request.POST)
+        if form.is_valid():
+            room = form.save(commit = False)
+            room.host = request.user
+            room.save()
+            return redirect('home')
+    
+    context ={'form' : form}
+    return render(request, 'basicapp/room_form.html', context)
+
+
+def deleteRoom(request, pk):
+    room = Room.objects.get(id = pk)
+    
+    
+    if request.user != room.host:
+        return HttpResponse("You don't have permission to delete this.")
+    
+    
+    if request.method == 'POST':
+        room.delete()
+        return redirect('home')
+    return render(request, 'basicapp/delete_room.html', {'obj' : room})
+
+
+@login_required(login_url='login')
+def deletemess(request, pk):
+    message = Message.objects.get(id = pk)
+    
+    
+    if request.user != message.user:
+        return HttpResponse("You don't have permission to delete this.")
+    
+    
+    if request.method == 'POST':
+        message.delete()
+        return redirect('home')
+    return render(request, 'basicapp/delete_room.html', {'obj' : message})
