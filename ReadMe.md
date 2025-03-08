@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/3ce5c9c4-daa0-44b9-9f3e-77f7ec7e76bc)This is a Platform where peple can solve their coding problems in 3 languages and check againest test cases
+This is a Platform where peple can solve their coding problems in 3 languages and check against test cases
 
 
 
